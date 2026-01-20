@@ -21,17 +21,48 @@ cartBtn.addEventListener('click', () => {
     alert("Opening Shopping Cart");
 });
 
-// Auto-slide functionality for Promotions
 const slider = document.getElementById('promo-slider');
-let isDown = false;
-let startX;
-let scrollLeft;
 
-// Basic Auto-scroll every 5 seconds
+// Option A: Automate file detection (Checking for promo1.gif, promo2.gif, etc.)
+async function loadPromos() {
+    let i = 1;
+    let found = true;
+    while (found && i < 10) { // Checks up to 10 files
+        const fileName = `promo${i}.gif`;
+        try {
+            const response = await fetch(fileName, { method: 'HEAD' });
+            if (response.ok) {
+                const card = document.createElement('div');
+                card.className = 'promo-card';
+                card.innerHTML = `<img src="${fileName}" class="promo-img" alt="Promo">`;
+                slider.appendChild(card);
+                i++;
+            } else { found = false; }
+        } catch (e) { found = false; }
+    }
+    initObserver(); // Start scaling logic
+}
+
+// Scaling Logic: Detects which card is in the center
+function initObserver() {
+    const observer = new IntersectionObserver((entries) => {
+        entries.forEach(entry => {
+            if (entry.isIntersecting) entry.target.classList.add('active');
+            else entry.target.classList.remove('active');
+        });
+    }, { root: slider, threshold: 0.8 });
+
+    document.querySelectorAll('.promo-card').forEach(card => observer.observe(card));
+}
+
+// Auto-slide to next center card
 setInterval(() => {
-    if (slider.scrollLeft + slider.offsetWidth >= slider.scrollWidth) {
+    const cardWidth = slider.querySelector('.promo-card')?.offsetWidth + 10 || 300;
+    if (slider.scrollLeft + slider.offsetWidth >= slider.scrollWidth - 10) {
         slider.scrollTo({ left: 0, behavior: 'smooth' });
     } else {
-        slider.scrollBy({ left: 300, behavior: 'smooth' });
+        slider.scrollBy({ left: cardWidth, behavior: 'smooth' });
     }
 }, 5000);
+
+loadPromos();

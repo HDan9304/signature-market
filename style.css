@@ -103,9 +103,10 @@ body {
     overflow-x: auto;
     scroll-snap-type: x mandatory;
     scroll-behavior: smooth;
-    gap: 15px;
-    padding: 0 20px 10px;
+    gap: 10px;
+    padding: 20px 15%; /* Horizontal padding creates the 'peek' effect */
     -webkit-overflow-scrolling: touch;
+    align-items: center;
 }
 
 /* Hide scrollbar for clean look */
@@ -114,13 +115,26 @@ body {
 }
 
 .promo-card {
-    flex: 0 0 85%; /* Shows 85% of card to hint at next slide */
-    scroll-snap-align: start;
+    flex: 0 0 100%; /* Full width of the viewable area */
+    scroll-snap-align: center;
     border-radius: 15px;
-    min-height: 180px;
+    aspect-ratio: 4 / 5; /* Forces the 4:5 ratio */
     display: flex;
     align-items: center;
-    overflow: hidden; /* Ensures image corners are rounded */
+    justify-content: center;
+    overflow: hidden;
+    transition: transform 0.4s ease; /* Smooth scaling */
+    transform: scale(0.9); /* Non-active cards are smaller */
+    background: #f0f0f0;
+}
+
+.promo-card.active {
+    transform: scale(1.1); /* Center card is larger */
+    z-index: 2;
+}
+
+@media (min-width: 768px) {
+    .promo-card { flex: 0 0 350px; } /* Fixed size for professional desktop look */
 }
 
 .promo-img {
