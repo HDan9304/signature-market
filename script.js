@@ -25,32 +25,48 @@ const slider = document.getElementById('promo-slider');
 
 // Option A: Automate file detection (Checking for promo1.gif, promo2.gif, etc.)
 async function loadPromos() {
+    const indicatorContainer = document.getElementById('promo-indicators');
     let i = 1;
     let found = true;
-    while (found && i < 10) { // Checks up to 10 files
+    while (found && i < 10) {
         const fileName = `promo${i}.gif`;
         try {
             const response = await fetch(fileName, { method: 'HEAD' });
             if (response.ok) {
+                // Create Card
                 const card = document.createElement('div');
                 card.className = 'promo-card';
+                card.dataset.index = i - 1;
                 card.innerHTML = `<img src="${fileName}" class="promo-img" alt="Promo">`;
                 slider.appendChild(card);
+                
+                // Create Indicator Dot
+                const dot = document.createElement('div');
+                dot.className = 'dot';
+                dot.id = `dot-${i - 1}`;
+                indicatorContainer.appendChild(dot);
+                
                 i++;
             } else { found = false; }
         } catch (e) { found = false; }
     }
-    initObserver(); // Start scaling logic
+    initObserver();
 }
 
-// Scaling Logic: Detects which card is in the center
 function initObserver() {
     const observer = new IntersectionObserver((entries) => {
         entries.forEach(entry => {
-            if (entry.isIntersecting) entry.target.classList.add('active');
-            else entry.target.classList.remove('active');
+            const index = entry.target.dataset.index;
+            const dot = document.getElementById(`dot-${index}`);
+            if (entry.isIntersecting) {
+                entry.target.classList.add('active');
+                if (dot) dot.classList.add('active');
+            } else {
+                entry.target.classList.remove('active');
+                if (dot) dot.classList.remove('active');
+            }
         });
-    }, { root: slider, threshold: 0.8 });
+    }, { root: slider, threshold: 0.6 });
 
     document.querySelectorAll('.promo-card').forEach(card => observer.observe(card));
 }

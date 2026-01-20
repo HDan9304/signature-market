@@ -103,34 +103,43 @@ body {
     overflow-x: auto;
     scroll-snap-type: x mandatory;
     scroll-behavior: smooth;
-    gap: 10px;
-    padding: 20px 8%; /* Reduced padding to allow the card to expand horizontally */
+    gap: 0; /* No gaps for a flush fit */
+    padding: 0; /* Removed padding to fit page */
     -webkit-overflow-scrolling: touch;
-    align-items: center;
 }
 
-/* Hide scrollbar for clean look */
 .slider-wrapper::-webkit-scrollbar {
     display: none;
 }
 
 .promo-card {
-    flex: 0 0 100%; /* Full width of the viewable area */
-    scroll-snap-align: center;
-    border-radius: 15px;
-    aspect-ratio: 4 / 5; /* Forces the 4:5 ratio */
-    display: flex;
-    align-items: center;
-    justify-content: center;
+    flex: 0 0 100%; /* Fits the full width of the screen */
+    scroll-snap-align: start;
+    aspect-ratio: 4 / 5;
     overflow: hidden;
-    transition: transform 0.4s ease; /* Smooth scaling */
-    transform: scale(0.9); /* Non-active cards are smaller */
     background: #f0f0f0;
 }
 
-.promo-card.active {
-    transform: scale(1.1); /* Center card is larger */
-    z-index: 2;
+/* Page Indicators */
+.promo-indicators {
+    display: flex;
+    justify-content: center;
+    gap: 8px;
+    padding: 15px 0;
+}
+
+.dot {
+    width: 8px;
+    height: 8px;
+    background: #ccc;
+    border-radius: 50%;
+    transition: background 0.3s;
+}
+
+.dot.active {
+    background: var(--primary-green);
+    width: 20px; /* Stretches the active dot for a modern look */
+    border-radius: 4px;
 }
 
 @media (min-width: 768px) {
