@@ -20,3 +20,18 @@ cartBtn.addEventListener('click', () => {
     console.log("Viewing cart");
     alert("Opening Shopping Cart");
 });
+
+// Auto-slide functionality for Promotions
+const slider = document.getElementById('promo-slider');
+let isDown = false;
+let startX;
+let scrollLeft;
+
+// Basic Auto-scroll every 5 seconds
+setInterval(() => {
+    if (slider.scrollLeft + slider.offsetWidth >= slider.scrollWidth) {
+        slider.scrollTo({ left: 0, behavior: 'smooth' });
+    } else {
+        slider.scrollBy({ left: 300, behavior: 'smooth' });
+    }
+}, 5000);

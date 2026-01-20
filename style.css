@@ -90,3 +90,59 @@ body {
         font-size: 1.8rem;
     }
 }
+
+/* Promotion Slider Section */
+.promo-slider {
+    padding: 20px 0;
+    background-color: var(--accent-green);
+    overflow: hidden;
+}
+
+.slider-wrapper {
+    display: flex;
+    overflow-x: auto;
+    scroll-snap-type: x mandatory;
+    scroll-behavior: smooth;
+    gap: 15px;
+    padding: 0 20px 10px;
+    -webkit-overflow-scrolling: touch;
+}
+
+/* Hide scrollbar for clean look */
+.slider-wrapper::-webkit-scrollbar {
+    display: none;
+}
+
+.promo-card {
+    flex: 0 0 85%; /* Shows 85% of card to hint at next slide */
+    scroll-snap-align: start;
+    background-color: var(--primary-green);
+    color: var(--white);
+    padding: 30px;
+    border-radius: 15px;
+    min-height: 180px;
+    display: flex;
+    align-items: center;
+}
+
+.promo-content span {
+    text-transform: uppercase;
+    font-size: 0.7rem;
+    letter-spacing: 1px;
+    opacity: 0.9;
+}
+
+.promo-content h3 {
+    margin: 10px 0;
+    font-size: 1.4rem;
+}
+
+/* Desktop Adaptation */
+@media (min-width: 768px) {
+    .promo-card {
+        flex: 0 0 calc(50% - 20px); /* Shows 2 cards on desktop */
+    }
+    .slider-wrapper {
+        padding: 0 calc((100% - 1200px) / 2 + 20px); /* Aligns with container */
+    }
+}
