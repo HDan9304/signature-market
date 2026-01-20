@@ -104,7 +104,7 @@ body {
     scroll-snap-type: x mandatory;
     scroll-behavior: smooth;
     gap: 10px;
-    padding: 20px 15%; /* Horizontal padding creates the 'peek' effect */
+    padding: 20px 8%; /* Reduced padding to allow the card to expand horizontally */
     -webkit-overflow-scrolling: touch;
     align-items: center;
 }
@@ -158,9 +158,10 @@ body {
 /* Desktop Adaptation */
 @media (min-width: 768px) {
     .promo-card {
-        flex: 0 0 calc(50% - 20px); /* Shows 2 cards on desktop */
+        flex: 0 0 650px; /* Significant increase in size for desktop visibility */
+        max-width: 85%; /* Ensures it never hits the screen edges */
     }
     .slider-wrapper {
-        padding: 0 calc((100% - 1200px) / 2 + 20px); /* Aligns with container */
+        padding: 40px 20%; /* Centered alignment with clear peeks on sides */
     }
 }
