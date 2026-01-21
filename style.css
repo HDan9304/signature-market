@@ -207,6 +207,27 @@ body {
     display: none;
 }
 
+.product-indicators {
+    display: flex;
+    justify-content: center;
+    gap: 6px;
+    margin-top: 15px;
+}
+
+.p-dot {
+    width: 6px;
+    height: 6px;
+    background: #ddd;
+    border-radius: 50%;
+    transition: all 0.3s ease;
+}
+
+.p-dot.active {
+    background: var(--primary-green);
+    width: 18px;
+    border-radius: 10px;
+}
+
 .manual-slider .product-card {
     flex: 0 0 185px; /* Increased width for more horizontal breathing room */
     margin-right: 5px;

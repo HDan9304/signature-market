@@ -150,8 +150,20 @@ function renderProductGrouped(data) {
         section.innerHTML = `
             <h2 class="group-header">${groupName}</h2>
             <div class="manual-slider" id="slider-${groupID}"></div>
+            <div class="product-indicators" id="indicators-${groupID}"></div>
         `;
         productGrid.appendChild(section);
+
+        const sliderElem = section.querySelector('.manual-slider');
+        sliderElem.addEventListener('scroll', () => {
+            const scrollPos = sliderElem.scrollLeft;
+            const cardWidth = sliderElem.querySelector('.product-card').offsetWidth + 15;
+            const activeIndex = Math.round(scrollPos / cardWidth);
+            const dots = section.querySelectorAll('.p-dot');
+            dots.forEach((dot, idx) => {
+                dot.classList.toggle('active', idx === activeIndex);
+            });
+        });
     }
 
     const sliderContainer = section.querySelector('.manual-slider');
@@ -176,6 +188,11 @@ function renderProductGrouped(data) {
         </div>
     `;
     sliderContainer.appendChild(card);
+
+    const indicatorContainer = section.querySelector('.product-indicators');
+    const dot = document.createElement('div');
+    dot.className = 'p-dot' + (sliderContainer.children.length === 1 ? ' active' : '');
+    indicatorContainer.appendChild(dot);
 }
 
 // Updated Add to Cart Listener
