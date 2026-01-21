@@ -221,8 +221,15 @@ function renderProductGrouped(data) {
             seeAllBtn.className = 'see-all-btn';
             seeAllBtn.innerText = 'See All';
             seeAllBtn.onclick = () => {
-                section.classList.toggle('grid-mode');
-                seeAllBtn.innerText = section.classList.contains('grid-mode') ? 'Show Less' : 'See All';
+                const isGrid = section.classList.toggle('grid-mode');
+                seeAllBtn.innerText = isGrid ? 'Show Less' : 'See All';
+                
+                // Apply Staggered Wave (See All) or Slide Back (See Less)
+                section.querySelectorAll('.product-card').forEach((card, i) => {
+                    card.style.animation = isGrid 
+                        ? `gridReveal 0.5s ${i * 0.05}s cubic-bezier(0.2, 0.8, 0.2, 1) both` 
+                        : `gridHide 0.4s ease-in both`;
+                });
             };
             section.querySelector('.group-header-row').appendChild(seeAllBtn);
         }
