@@ -259,12 +259,17 @@ body {
     flex: unset;
     width: 100%;
     scroll-snap-align: none;
-    animation: gridReveal 0.5s cubic-bezier(0.25, 0.46, 0.45, 0.94) both;
+    /* Animation handled dynamically via JS for staggering */
 }
 
 @keyframes gridReveal {
-    0% { opacity: 0; transform: translateY(20px); }
-    100% { opacity: 1; transform: translateY(0); }
+    0% { opacity: 0; transform: translateY(30px) scale(0.95); }
+    100% { opacity: 1; transform: translateY(0) scale(1); }
+}
+
+@keyframes gridHide {
+    0% { opacity: 1; transform: translateY(0); }
+    100% { opacity: 0; transform: translateY(10px); }
 }
 
 .product-group-section.grid-mode .product-indicators {
