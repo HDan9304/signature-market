@@ -82,9 +82,12 @@ function filterProductsByPromo(promoIndex) {
     cards.forEach(card => {
         const productPromoID = card.dataset.promo;
 
-        // NEW LOGIC: If you haven't set a promoID in info.json yet, 
-        // OR if the ID is "undefined", always show the product.
-        if (!productPromoID || productPromoID === "undefined" || productPromoID === "" || productPromoID === promoID) {
+        // ABSOLUTE FIX: 
+        // 1. If product HAS NO promoID (it's a "regular" product), ALWAYS show it.
+        // 2. If product HAS a promoID, only show it if it matches the current slide.
+        if (!productPromoID || productPromoID === "undefined" || productPromoID === "") {
+            card.style.display = 'block';
+        } else if (productPromoID === promoID) {
             card.style.display = 'block';
         } else {
             card.style.display = 'none';
