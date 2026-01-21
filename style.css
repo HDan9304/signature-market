@@ -522,7 +522,7 @@ body {
 .see-more-content {
     display: flex;
     align-items: center;
-    padding-left: 10px;
+    padding-left: 0; /* Removed padding to sit flush with the card edge */
 }
 
 .pull-arrow-icon {
