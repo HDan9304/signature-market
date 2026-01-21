@@ -112,8 +112,8 @@ let allProducts = []; // Stores all loaded products for filtering
 
 async function loadProducts() {
     productGrid.innerHTML = ''; // This now acts as a container for groups
-    let i = 7747;
-    const maxSearch = i + 50;
+    let i = 7549; // New starting point to include product 7549
+    const maxSearch = i + 300; // Increased range to bridge the gap between IDs
 
     for (i; i < maxSearch; i++) {
         const folder = `product${i}`;
