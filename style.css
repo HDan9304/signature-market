@@ -93,10 +93,14 @@ body {
 
 /* Promotion Slider Section */
 .promo-slider {
-    padding: 20px 0;
     background-color: var(--accent-green);
     overflow: hidden;
-    position: relative; /* Base for arrows */
+}
+
+.promo-container {
+    display: block; /* Overrides default flex container for slider logic */
+    position: relative;
+    padding: 20px 20px; /* Matches product-section padding */
 }
 
 .slider-wrapper {
@@ -104,8 +108,7 @@ body {
     overflow-x: auto;
     scroll-snap-type: x mandatory;
     scroll-behavior: smooth;
-    gap: 0; /* No gaps for a flush fit */
-    padding: 0; /* Removed padding to fit page */
+    gap: 15px; /* Adds breathing room between promos */
     -webkit-overflow-scrolling: touch;
 }
 
