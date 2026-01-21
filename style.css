@@ -472,3 +472,30 @@ body {
     padding-bottom: 20px;
     width: 100%; /* Constrains the slider to the viewport width */
 }
+
+/* Out of Stock Styling */
+.product-card.out-of-stock {
+    pointer-events: none; /* Disables all interactions */
+    filter: grayscale(0.5); /* Dims the card visuals */
+}
+
+.out-of-stock-overlay {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    background: rgba(0, 0, 0, 0.6);
+    color: white;
+    padding: 8px 16px;
+    border-radius: 4px;
+    font-weight: 800;
+    font-size: 0.8rem;
+    z-index: 10;
+    white-space: nowrap;
+}
+
+.product-card.out-of-stock .add-to-cart-btn {
+    background-color: #ccc;
+    box-shadow: none;
+    cursor: not-allowed;
+}

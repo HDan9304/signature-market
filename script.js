@@ -169,13 +169,15 @@ function renderProductGrouped(data) {
     }
 
     const sliderContainer = section.querySelector('.manual-slider');
+    const isOutOfStock = data.stock === 0;
     const card = document.createElement('div');
-    card.className = 'product-card';
+    card.className = `product-card ${isOutOfStock ? 'out-of-stock' : ''}`;
     card.dataset.promo = data.promoID;
-    card.dataset.index = sliderContainer.children.length; // Added for observer
+    card.dataset.index = sliderContainer.children.length;
     const discount = data.oldPrice ? Math.round(((data.oldPrice - data.price) / data.oldPrice) * 100) : 0;
     card.innerHTML = `
         <div class="product-img-container">
+            ${isOutOfStock ? '<div class="out-of-stock-overlay">SOLD OUT</div>' : ''}
             <img src="products/${data.folder}/${data.image}" alt="${data.name}" class="product-img">
         </div>
         <div class="product-info">
@@ -187,7 +189,9 @@ function renderProductGrouped(data) {
                     ${discount > 0 ? `<span class="discount-badge">-${discount}%</span>` : ''}
                 </div>
             </div>
-            <button class="add-to-cart-btn">Add to Cart</button>
+            <button class="add-to-cart-btn" ${isOutOfStock ? 'disabled' : ''}>
+                ${isOutOfStock ? 'Out of Stock' : 'Add to Cart'}
+            </button>
         </div>
     `;
     sliderContainer.appendChild(card);
