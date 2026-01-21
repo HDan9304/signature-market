@@ -179,6 +179,7 @@ body {
 /* Product Grid Styling */
 .product-section {
     padding: 40px 20px;
+    display: block; /* Overrides .container flexbox to fix horizontal overrun */
 }
 
 .product-group-section {
