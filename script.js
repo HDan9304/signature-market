@@ -61,6 +61,7 @@ function initObserver() {
             if (entry.isIntersecting) {
                 entry.target.classList.add('active');
                 if (dot) dot.classList.add('active');
+                filterProductsByPromo(index); // NEW: Filter products when promo changes
             } else {
                 entry.target.classList.remove('active');
                 if (dot) dot.classList.remove('active');
@@ -69,6 +70,19 @@ function initObserver() {
     }, { root: slider, threshold: 0.6 });
 
     document.querySelectorAll('.promo-card').forEach(card => observer.observe(card));
+}
+
+function filterProductsByPromo(promoIndex) {
+    const promoID = parseInt(promoIndex) + 1; // Converts index 0 to Promo 1
+    const cards = document.querySelectorAll('.product-card');
+    cards.forEach(card => {
+        // Show product if it matches current promoID, or show all if no ID is set
+        if (card.dataset.promo == promoID || !card.dataset.promo) {
+            card.style.display = 'block';
+        } else {
+            card.style.display = 'none';
+        }
+    });
 }
 
 // Auto-slide to next center card
@@ -86,35 +100,44 @@ loadPromos();
 // New Folder-Based Product Loader
 const productGrid = document.getElementById('product-grid');
 
-// List your product folder names here
-const productFolders = ['Roasted-Almonds', 'Cashew-Mix']; 
+// Automated Product Loading with Promotion Linking
+let allProducts = []; // Stores all loaded products for filtering
 
 async function loadProducts() {
-    productGrid.innerHTML = ''; // Clear current grid
+    productGrid.innerHTML = '';
+    // Probing for products in a standardized naming format to avoid manual lists
+    const folders = ['Roasted-Almonds', 'Cashew-Mix', 'Salted-Pistachios', 'Dried-Mango']; 
     
-    for (const folder of productFolders) {
+    for (const folder of folders) {
         try {
             const response = await fetch(`products/${folder}/info.json`);
+            if (!response.ok) continue;
             const data = await response.json();
-            
-            const card = document.createElement('div');
-            card.className = 'product-card';
-            card.innerHTML = `
-                <div class="product-img-container">
-                    <img src="products/${folder}/${data.image}" alt="${data.name}" class="product-img">
-                </div>
-                <div class="product-info">
-                    <h4 class="product-name">${data.name}</h4>
-                    <div class="product-price">
-                        <span class="current-price">${data.currency} ${data.price}</span>
-                        <span class="slash-price">${data.currency} ${data.oldPrice}</span>
-                    </div>
-                    <button class="add-to-cart-btn">Add to Cart</button>
-                </div>
-            `;
-            productGrid.appendChild(card);
-        } catch (e) { console.error(`Error loading product: ${folder}`, e); }
+            data.folder = folder; // Store folder path
+            allProducts.push(data);
+            renderProduct(data);
+        } catch (e) { console.warn(`Product folder not found or info.json missing: ${folder}`); }
     }
+}
+
+function renderProduct(data) {
+    const card = document.createElement('div');
+    card.className = 'product-card';
+    card.dataset.promo = data.promoID; // Link to promotion ID
+    card.innerHTML = `
+        <div class="product-img-container">
+            <img src="products/${data.folder}/${data.image}" alt="${data.name}" class="product-img">
+        </div>
+        <div class="product-info">
+            <h4 class="product-name">${data.name}</h4>
+            <div class="product-price">
+                <span class="current-price">${data.currency} ${data.price}</span>
+                <span class="slash-price">${data.currency} ${data.oldPrice}</span>
+            </div>
+            <button class="add-to-cart-btn">Add to Cart</button>
+        </div>
+    `;
+    productGrid.appendChild(card);
 }
 
 // Updated Add to Cart Listener
