@@ -374,11 +374,12 @@ body {
 
 /* Fix for horizontal overrun and observer accuracy */
 .manual-slider .product-card {
-    scroll-snap-align: center; /* Center snapping for better observer detection */
+    scroll-snap-align: center;
     flex-shrink: 0;
 }
 
 .manual-slider {
     scroll-padding: 0 20px;
-    padding-bottom: 20px; /* Space for indicators */
+    padding-bottom: 20px;
+    width: 100%; /* Constrains the slider to the viewport width */
 }
