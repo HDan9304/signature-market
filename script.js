@@ -158,15 +158,17 @@ function renderProductGrouped(data) {
     const card = document.createElement('div');
     card.className = 'product-card';
     card.dataset.promo = data.promoID;
+    const discount = data.oldPrice ? Math.round(((data.oldPrice - data.price) / data.oldPrice) * 100) : 0;
     card.innerHTML = `
         <div class="product-img-container">
+            ${discount > 0 ? `<span class="discount-badge">-${discount}%</span>` : ''}
             <img src="products/${data.folder}/${data.image}" alt="${data.name}" class="product-img">
         </div>
         <div class="product-info">
             <h4 class="product-name">${data.name}</h4>
             <div class="product-price">
                 <span class="current-price">${data.currency} ${data.price}</span>
-                <span class="slash-price">${data.currency} ${data.oldPrice}</span>
+                ${data.oldPrice ? `<span class="slash-price">${data.currency} ${data.oldPrice}</span>` : ''}
             </div>
             <button class="add-to-cart-btn">Add to Cart</button>
         </div>

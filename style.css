@@ -187,6 +187,8 @@ body {
 
 .group-header {
     font-size: 1.2rem;
+    font-weight: 700;
+    letter-spacing: -1px;
     color: var(--primary-green);
     margin-bottom: 15px;
     padding-left: 5px;
@@ -247,9 +249,11 @@ body {
 }
 
 .product-name {
-    font-size: 0.9rem;
+    font-size: 1rem;
+    font-weight: 700;
+    letter-spacing: -0.5px;
     color: var(--text-dark);
-    margin-bottom: 8px;
+    margin-bottom: 5px;
     white-space: nowrap;
     overflow: hidden;
     text-overflow: ellipsis;
@@ -259,6 +263,7 @@ body {
     display: flex;
     flex-direction: column;
     margin-bottom: 12px;
+    letter-spacing: -0.5px;
 }
 
 .current-price {
@@ -287,4 +292,34 @@ body {
 
 .add-to-cart-btn:hover {
     background-color: #1e3d1a;
+}
+
+/* UI Refinements */
+.product-img-container {
+    position: relative; /* Base for badge positioning */
+}
+
+.discount-badge {
+    position: absolute;
+    top: 10px;
+    left: 10px;
+    background: #e74c3c; /* Alert Red */
+    color: white;
+    padding: 4px 8px;
+    font-size: 0.75rem;
+    font-weight: 700;
+    border-radius: 4px;
+    z-index: 10;
+}
+
+.product-card {
+    border: 1px solid #eee; /* Subtle border for definition */
+}
+
+.product-name {
+    display: -webkit-box;
+    -webkit-line-clamp: 2; /* Allow 2 lines for long names */
+    -webkit-box-orient: vertical;
+    white-space: normal; /* Override previous ellipsis logic */
+    height: 2.4rem; /* Fixed height for grid alignment */
 }
