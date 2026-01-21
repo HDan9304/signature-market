@@ -248,6 +248,30 @@ function renderProductGrouped(data) {
                     <span>See More</span>
                 </div>
             `;
+
+            // Pull-to-trigger logic with haptic feedback
+            let startX = 0;
+            let pullDist = 0;
+            seeMoreCard.addEventListener('touchstart', (e) => { startX = e.touches[0].pageX; }, {passive: true});
+            seeMoreCard.addEventListener('touchmove', (e) => {
+                pullDist = startX - e.touches[0].pageX;
+                if (pullDist > 0 && pullDist < 100) {
+                    seeMoreCard.style.transform = `translateX(${-pullDist * 0.3}px)`;
+                    seeMoreCard.querySelector('.see-more-circle').style.transform = `scale(${1 + pullDist/150})`;
+                    if (pullDist > 60 && !seeMoreCard.dataset.vibrated) {
+                        if (navigator.vibrate) navigator.vibrate(15);
+                        seeMoreCard.dataset.vibrated = "true";
+                    }
+                }
+            }, {passive: true});
+            seeMoreCard.addEventListener('touchend', () => {
+                if (pullDist > 60) window.location.href = `category.html?name=${encodeURIComponent(groupName)}&id=${data.promoID}`;
+                seeMoreCard.style.transform = '';
+                seeMoreCard.querySelector('.see-more-circle').style.transform = '';
+                pullDist = 0;
+                delete seeMoreCard.dataset.vibrated;
+            });
+
             sliderContainer.appendChild(seeMoreCard);
         } else {
             sliderContainer.appendChild(seeMoreCard); // Ensure it stays at the very end
