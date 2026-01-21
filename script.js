@@ -249,27 +249,40 @@ function renderProductGrouped(data) {
                 </div>
             `;
 
-            // Pull-to-trigger logic with haptic feedback
+            // Pull-to-reveal logic with haptic feedback
             let startX = 0;
             let pullDist = 0;
-            seeMoreCard.addEventListener('touchstart', (e) => { startX = e.touches[0].pageX; }, {passive: true});
-            seeMoreCard.addEventListener('touchmove', (e) => {
+            sliderContainer.addEventListener('touchstart', (e) => {
+                // Check if user is at the far right end of the slider
+                if (sliderContainer.scrollLeft + sliderContainer.clientWidth >= sliderContainer.scrollWidth - 5) {
+                    startX = e.touches[0].pageX;
+                } else { startX = 0; }
+            }, {passive: true});
+
+            sliderContainer.addEventListener('touchmove', (e) => {
+                if (!startX) return;
                 pullDist = startX - e.touches[0].pageX;
-                if (pullDist > 0 && pullDist < 100) {
-                    seeMoreCard.style.transform = `translateX(${-pullDist * 0.3}px)`;
-                    seeMoreCard.querySelector('.see-more-circle').style.transform = `scale(${1 + pullDist/150})`;
-                    if (pullDist > 60 && !seeMoreCard.dataset.vibrated) {
+                if (pullDist > 0 && pullDist < 160) {
+                    // Dynamically expand the card width and opacity
+                    seeMoreCard.style.width = `${pullDist}px`;
+                    seeMoreCard.style.flex = `0 0 ${pullDist}px`;
+                    seeMoreCard.style.opacity = pullDist / 80;
+                    seeMoreCard.querySelector('.see-more-circle').style.transform = `scale(${Math.min(1.2, pullDist/80)})`;
+                    
+                    // Trigger haptic vibration (15ms) when threshold is met
+                    if (pullDist > 80 && !seeMoreCard.dataset.vibrated) {
                         if (navigator.vibrate) navigator.vibrate(15);
                         seeMoreCard.dataset.vibrated = "true";
                     }
                 }
             }, {passive: true});
-            seeMoreCard.addEventListener('touchend', () => {
-                if (pullDist > 60) window.location.href = `category.html?name=${encodeURIComponent(groupName)}&id=${data.promoID}`;
-                seeMoreCard.style.transform = '';
+
+            sliderContainer.addEventListener('touchend', () => {
+                if (pullDist > 80) window.location.href = `category.html?name=${encodeURIComponent(groupName)}&id=${data.promoID}`;
+                // Reset visual state
+                seeMoreCard.style.width = ''; seeMoreCard.style.flex = ''; seeMoreCard.style.opacity = '';
                 seeMoreCard.querySelector('.see-more-circle').style.transform = '';
-                pullDist = 0;
-                delete seeMoreCard.dataset.vibrated;
+                pullDist = 0; startX = 0; delete seeMoreCard.dataset.vibrated;
             });
 
             sliderContainer.appendChild(seeMoreCard);

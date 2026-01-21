@@ -508,8 +508,15 @@ body {
     align-items: center;
     justify-content: center;
     border: 2px dashed var(--primary-green) !important;
-    transition: transform 0.2s cubic-bezier(0.2, 0, 0.2, 1); /* Added for pull effect */
-    touch-action: pan-y pinch-zoom; /* Prevents default horizontal bounce interference */
+    /* Hide by default for pull-to-reveal */
+    flex: 0 0 0 !important;
+    width: 0 !important;
+    margin: 0 !important;
+    opacity: 0;
+    overflow: hidden;
+    white-space: nowrap;
+    transition: all 0.3s cubic-bezier(0.2, 0.8, 0.2, 1);
+    touch-action: pan-y pinch-zoom;
 }
 
 .see-more-content {
