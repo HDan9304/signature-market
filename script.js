@@ -73,11 +73,19 @@ function initObserver() {
 }
 
 function filterProductsByPromo(promoIndex) {
-    const promoID = parseInt(promoIndex) + 1; // Converts index 0 to Promo 1
+    const promoID = (parseInt(promoIndex) + 1).toString(); 
     const cards = document.querySelectorAll('.product-card');
+    
+    // If no products have loaded yet, stop to prevent hiding everything
+    if (cards.length === 0) return;
+
     cards.forEach(card => {
-        // Show product if it matches current promoID, or show all if no ID is set
-        if (card.dataset.promo == promoID || !card.dataset.promo) {
+        const productPromoID = card.dataset.promo;
+        // Show if: 
+        // 1. Product promoID matches current slider promoID
+        // 2. Product has NO promoID (show for all promos)
+        // 3. promoIndex is undefined (initial load state)
+        if (promoIndex === undefined || !productPromoID || productPromoID === promoID) {
             card.style.display = 'block';
         } else {
             card.style.display = 'none';
