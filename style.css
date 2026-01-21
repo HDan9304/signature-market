@@ -371,3 +371,9 @@ body {
     box-shadow: 0 6px 15px rgba(45, 90, 39, 0.25);
     transform: translateY(-1px);
 }
+
+/* Fix for horizontal overrun */
+.manual-slider .product-card {
+    scroll-snap-align: start;
+    flex-shrink: 0;
+}
