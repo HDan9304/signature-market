@@ -218,13 +218,57 @@ body {
     overflow: hidden; /* Prevents the section from expanding beyond viewport */
 }
 
+.group-header-row {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 15px;
+    padding: 0 5px;
+}
+
 .group-header {
-    font-size: 1.2rem;
+    font-size: 1.1rem;
     font-weight: 700;
     letter-spacing: -1px;
     color: var(--primary-green);
-    margin-bottom: 15px;
-    padding-left: 5px;
+    margin: 0;
+}
+
+.see-all-btn {
+    background: none;
+    border: 1.5px solid var(--primary-green);
+    color: var(--primary-green);
+    padding: 4px 14px;
+    border-radius: 20px;
+    font-size: 0.75rem;
+    font-weight: 700;
+    cursor: pointer;
+    transition: all 0.2s ease;
+}
+
+/* Grid Mode Layout (Activated by Button) */
+.product-group-section.grid-mode .manual-slider {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr); /* 2 columns on mobile for readability */
+    gap: 12px;
+    overflow-x: visible;
+    scroll-snap-type: none;
+}
+
+.product-group-section.grid-mode .manual-slider .product-card {
+    flex: unset;
+    width: 100%;
+    scroll-snap-align: none;
+}
+
+.product-group-section.grid-mode .product-indicators {
+    display: none; /* Hide pagination dots in grid view */
+}
+
+@media (min-width: 768px) {
+    .product-group-section.grid-mode .manual-slider {
+        grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+    }
 }
 
 .manual-slider {

@@ -159,13 +159,14 @@ function renderProductGrouped(data) {
         section.className = 'product-group-section';
         section.id = `section-${groupID}`;
         section.innerHTML = `
-            <h2 class="group-header">${groupName}</h2>
+            <div class="group-header-row">
+                <h2 class="group-header">${groupName}</h2>
+            </div>
             <div class="manual-slider" id="slider-${groupID}"></div>
             <div class="product-indicators" id="indicators-${groupID}"></div>
         `;
         productGrid.appendChild(section);
-
-        }
+    }
 
     const sliderContainer = section.querySelector('.manual-slider');
     const card = document.createElement('div');
@@ -211,6 +212,21 @@ function renderProductGrouped(data) {
     }, { root: sliderContainer, threshold: 0.6 });
     
     pObserver.observe(card);
+
+    // Inject See All button if items exceed 5
+    if (sliderContainer.children.length > 5) {
+        let seeAllBtn = section.querySelector('.see-all-btn');
+        if (!seeAllBtn) {
+            seeAllBtn = document.createElement('button');
+            seeAllBtn.className = 'see-all-btn';
+            seeAllBtn.innerText = 'See All';
+            seeAllBtn.onclick = () => {
+                section.classList.toggle('grid-mode');
+                seeAllBtn.innerText = section.classList.contains('grid-mode') ? 'Show Less' : 'See All';
+            };
+            section.querySelector('.group-header-row').appendChild(seeAllBtn);
+        }
+    }
 }
 
 // Updated Add to Cart Listener
