@@ -499,3 +499,48 @@ body {
     box-shadow: none;
     cursor: not-allowed;
 }
+
+/* Swipe to See More Card */
+.see-more-card {
+    cursor: pointer;
+    background: var(--accent-green) !important;
+    display: flex !important;
+    align-items: center;
+    justify-content: center;
+    border: 2px dashed var(--primary-green) !important;
+}
+
+.see-more-content {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 12px;
+}
+
+.see-more-circle {
+    width: 60px;
+    height: 60px;
+    border: 2px solid var(--primary-green);
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.5rem;
+    color: var(--primary-green);
+    background: white;
+    transition: all 0.3s ease;
+}
+
+.see-more-card:hover .see-more-circle {
+    background: var(--primary-green);
+    color: white;
+    transform: scale(1.1);
+}
+
+.see-more-content span {
+    font-size: 0.8rem;
+    font-weight: 700;
+    color: var(--primary-green);
+    text-transform: uppercase;
+    letter-spacing: 1px;
+}

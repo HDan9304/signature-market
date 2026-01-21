@@ -231,6 +231,27 @@ function renderProductGrouped(data) {
             };
             section.querySelector('.group-header-row').appendChild(seeAllBtn);
         }
+
+        // NEW: Inject Swipe-to-See-More card at the end of the slider
+        let seeMoreCard = sliderContainer.querySelector('.see-more-card');
+        if (!seeMoreCard) {
+            seeMoreCard = document.createElement('div');
+            seeMoreCard.className = 'product-card see-more-card';
+            seeMoreCard.onclick = () => {
+                window.location.href = `category.html?name=${encodeURIComponent(groupName)}&id=${data.promoID}`;
+            };
+            seeMoreCard.innerHTML = `
+                <div class="see-more-content">
+                    <div class="see-more-circle">
+                        <i class="fa-solid fa-arrow-right"></i>
+                    </div>
+                    <span>See More</span>
+                </div>
+            `;
+            sliderContainer.appendChild(seeMoreCard);
+        } else {
+            sliderContainer.appendChild(seeMoreCard); // Ensure it stays at the very end
+        }
     }
 }
 
