@@ -105,11 +105,11 @@ let allProducts = []; // Stores all loaded products for filtering
 
 async function loadProducts() {
     productGrid.innerHTML = '';
-    let i = 1; 
+    let i = 7747; // Search now starts at your actual folder index
     let found = true;
 
     // Fully automatic: Probes for folders starting from product7747
-    while (found && i < 7800) { // Safety limit adjusted to allow room for growth
+    while (found && i < 7800) {
         const folder = `product${i}`;
         try {
             const response = await fetch(`products/${folder}/info.json`);
