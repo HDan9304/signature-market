@@ -105,18 +105,22 @@ let allProducts = []; // Stores all loaded products for filtering
 
 async function loadProducts() {
     productGrid.innerHTML = '';
-    // Probing for products in a standardized naming format to avoid manual lists
-    const folders = ['Roasted-Almonds', 'Cashew-Mix', 'Salted-Pistachios', 'Dried-Mango']; 
-    
-    for (const folder of folders) {
+    let i = 1;
+    let found = true;
+
+    // Fully automatic: Probes for folders named product1, product2, etc.
+    while (found && i < 20) { 
+        const folder = `product${i}`;
         try {
             const response = await fetch(`products/${folder}/info.json`);
-            if (!response.ok) continue;
-            const data = await response.json();
-            data.folder = folder; // Store folder path
-            allProducts.push(data);
-            renderProduct(data);
-        } catch (e) { console.warn(`Product folder not found or info.json missing: ${folder}`); }
+            if (response.ok) {
+                const data = await response.json();
+                data.folder = folder;
+                allProducts.push(data);
+                renderProduct(data);
+                i++;
+            } else { found = false; }
+        } catch (e) { found = false; }
     }
 }
 
