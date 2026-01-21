@@ -82,3 +82,12 @@ setInterval(() => {
 }, 5000);
 
 loadPromos();
+
+// Handle Add to Cart interactions
+document.addEventListener('click', (e) => {
+    if (e.target.classList.contains('add-to-cart-btn')) {
+        const productName = e.target.closest('.product-card').querySelector('.product-name').innerText;
+        console.log(`Added to cart: ${productName}`);
+        alert(`${productName} added to cart!`);
+    }
+});
