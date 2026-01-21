@@ -169,7 +169,8 @@ function renderProductGrouped(data) {
     }
 
     const sliderContainer = section.querySelector('.manual-slider');
-    const isOutOfStock = data.stock === 0;
+    // Using Number() ensures both "0" and 0 trigger the out-of-stock state
+    const isOutOfStock = Number(data.stock) === 0;
     const card = document.createElement('div');
     card.className = `product-card ${isOutOfStock ? 'out-of-stock' : ''}`;
     card.dataset.promo = data.promoID;
