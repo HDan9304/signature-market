@@ -92,15 +92,26 @@ function filterProductsByPromo(promoIndex) {
     });
 }
 
-// Auto-slide to next center card
-setInterval(() => {
-    const cardWidth = slider.querySelector('.promo-card')?.offsetWidth + 10 || 300;
+// Auto-slide logic with pause-on-hover and arrow support
+let autoSlide = setInterval(slideNext, 5000);
+
+function slideNext() {
+    const cardWidth = slider.querySelector('.promo-card')?.offsetWidth || 300;
     if (slider.scrollLeft + slider.offsetWidth >= slider.scrollWidth - 10) {
         slider.scrollTo({ left: 0, behavior: 'smooth' });
     } else {
         slider.scrollBy({ left: cardWidth, behavior: 'smooth' });
     }
-}, 5000);
+}
+
+slider.addEventListener('mouseenter', () => clearInterval(autoSlide));
+slider.addEventListener('mouseleave', () => autoSlide = setInterval(slideNext, 5000));
+
+document.getElementById('next-promo').addEventListener('click', slideNext);
+document.getElementById('prev-promo').addEventListener('click', () => {
+    const cardWidth = slider.querySelector('.promo-card')?.offsetWidth || 300;
+    slider.scrollBy({ left: -cardWidth, behavior: 'smooth' });
+});
 
 loadPromos();
 
