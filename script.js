@@ -83,11 +83,46 @@ setInterval(() => {
 
 loadPromos();
 
-// Handle Add to Cart interactions
+// New Folder-Based Product Loader
+const productGrid = document.getElementById('product-grid');
+
+// List your product folder names here
+const productFolders = ['Roasted-Almonds', 'Cashew-Mix']; 
+
+async function loadProducts() {
+    productGrid.innerHTML = ''; // Clear current grid
+    
+    for (const folder of productFolders) {
+        try {
+            const response = await fetch(`products/${folder}/info.json`);
+            const data = await response.json();
+            
+            const card = document.createElement('div');
+            card.className = 'product-card';
+            card.innerHTML = `
+                <div class="product-img-container">
+                    <img src="products/${folder}/${data.image}" alt="${data.name}" class="product-img">
+                </div>
+                <div class="product-info">
+                    <h4 class="product-name">${data.name}</h4>
+                    <div class="product-price">
+                        <span class="current-price">${data.currency} ${data.price}</span>
+                        <span class="slash-price">${data.currency} ${data.oldPrice}</span>
+                    </div>
+                    <button class="add-to-cart-btn">Add to Cart</button>
+                </div>
+            `;
+            productGrid.appendChild(card);
+        } catch (e) { console.error(`Error loading product: ${folder}`, e); }
+    }
+}
+
+// Updated Add to Cart Listener
 document.addEventListener('click', (e) => {
     if (e.target.classList.contains('add-to-cart-btn')) {
         const productName = e.target.closest('.product-card').querySelector('.product-name').innerText;
-        console.log(`Added to cart: ${productName}`);
         alert(`${productName} added to cart!`);
     }
 });
+
+loadProducts();
