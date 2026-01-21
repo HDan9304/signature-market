@@ -161,14 +161,16 @@ function renderProductGrouped(data) {
     const discount = data.oldPrice ? Math.round(((data.oldPrice - data.price) / data.oldPrice) * 100) : 0;
     card.innerHTML = `
         <div class="product-img-container">
-            ${discount > 0 ? `<span class="discount-badge">-${discount}%</span>` : ''}
             <img src="products/${data.folder}/${data.image}" alt="${data.name}" class="product-img">
         </div>
         <div class="product-info">
             <h4 class="product-name">${data.name}</h4>
             <div class="product-price">
                 <span class="current-price">${data.currency} ${data.price}</span>
-                ${data.oldPrice ? `<span class="slash-price">${data.currency} ${data.oldPrice}</span>` : ''}
+                <div class="price-discount-row">
+                    ${data.oldPrice ? `<span class="slash-price">${data.currency} ${data.oldPrice}</span>` : ''}
+                    ${discount > 0 ? `<span class="discount-badge">-${discount}%</span>` : ''}
+                </div>
             </div>
             <button class="add-to-cart-btn">Add to Cart</button>
         </div>

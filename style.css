@@ -246,47 +246,44 @@ body {
 .product-img {
     width: 100%;
     height: 100%;
-    object-fit: contain;
-    padding: 0; /* Image now fits to the absolute edges of the card */
+    object-fit: cover; /* Fits picture to top with rounded corner effect */
+    padding: 0;
     transition: transform 0.6s cubic-bezier(0.4, 0, 0.2, 1);
 }
 
 .product-card:hover .product-img {
-    transform: scale(1.05); /* Subtle zoom for edge-to-edge images */
+    transform: scale(1.08);
 }
 
 .discount-badge {
-    position: absolute;
-    top: 10px;
-    right: 10px; /* Moved to top-right to keep the larger image clear */
     background: #ff4757;
     color: white;
-    padding: 5px 10px;
-    font-size: 0.7rem;
+    padding: 2px 6px;
+    font-size: 0.65rem;
     font-weight: 800;
-    border-radius: 20px;
-    z-index: 10;
-    box-shadow: 0 4px 8px rgba(255, 71, 87, 0.3);
-    text-transform: uppercase;
+    border-radius: 4px;
+    margin-left: 8px;
+    display: inline-block;
+    vertical-align: middle;
 }
 
 .product-info {
-    padding: 20px;
+    padding: 15px 18px 20px;
     text-align: left;
 }
 
 .product-name {
-    font-size: 1rem;
+    font-size: 0.95rem;
     font-weight: 700;
     letter-spacing: -0.5px;
     color: var(--text-dark);
-    margin-bottom: 8px;
+    margin-bottom: 6px;
     display: -webkit-box;
     -webkit-line-clamp: 2;
     -webkit-box-orient: vertical;
     overflow: hidden;
-    height: 2.6rem;
-    line-height: 1.3rem;
+    height: 2.4rem;
+    line-height: 1.2rem;
     white-space: normal;
 }
 
@@ -295,6 +292,12 @@ body {
     flex-direction: column;
     margin-bottom: 15px;
     letter-spacing: -0.5px;
+}
+
+.price-discount-row {
+    display: flex;
+    align-items: center;
+    margin-top: 2px;
 }
 
 .current-price {
