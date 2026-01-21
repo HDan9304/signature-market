@@ -242,18 +242,13 @@ function renderProductGrouped(data) {
             };
             seeMoreCard.innerHTML = `
                 <div class="see-more-content">
-                    <div class="see-more-circle">
-                        <i class="fa-solid fa-arrow-right"></i>
-                    </div>
-                    <span>See More</span>
+                    <i class="fa-solid fa-chevron-right pull-arrow-icon"></i>
                 </div>
             `;
 
-            // Pull-to-reveal logic with haptic feedback
             let startX = 0;
             let pullDist = 0;
             sliderContainer.addEventListener('touchstart', (e) => {
-                // Check if user is at the far right end of the slider
                 if (sliderContainer.scrollLeft + sliderContainer.clientWidth >= sliderContainer.scrollWidth - 5) {
                     startX = e.touches[0].pageX;
                 } else { startX = 0; }
@@ -262,16 +257,18 @@ function renderProductGrouped(data) {
             sliderContainer.addEventListener('touchmove', (e) => {
                 if (!startX) return;
                 pullDist = startX - e.touches[0].pageX;
-                if (pullDist > 0 && pullDist < 160) {
-                    // Dynamically expand the card width and opacity
+                if (pullDist > 0 && pullDist < 120) {
                     seeMoreCard.style.width = `${pullDist}px`;
                     seeMoreCard.style.flex = `0 0 ${pullDist}px`;
-                    seeMoreCard.style.opacity = pullDist / 80;
-                    seeMoreCard.querySelector('.see-more-circle').style.transform = `scale(${Math.min(1.2, pullDist/80)})`;
+                    seeMoreCard.style.opacity = Math.min(1, pullDist / 60);
                     
-                    // Trigger haptic vibration (15ms) when threshold is met
+                    const arrow = seeMoreCard.querySelector('.pull-arrow-icon');
+                    // Dynamic arrow stretch and scale effect
+                    arrow.style.transform = `translateX(${(pullDist - 40) * 0.3}px) scale(${0.8 + (pullDist/120)*0.5})`;
+                    arrow.style.opacity = Math.min(1, pullDist / 40);
+                    
                     if (pullDist > 80 && !seeMoreCard.dataset.vibrated) {
-                        if (navigator.vibrate) navigator.vibrate(15);
+                        if (navigator.vibrate) navigator.vibrate(20); // Subtle haptic "click"
                         seeMoreCard.dataset.vibrated = "true";
                     }
                 }
@@ -279,9 +276,9 @@ function renderProductGrouped(data) {
 
             sliderContainer.addEventListener('touchend', () => {
                 if (pullDist > 80) window.location.href = `category.html?name=${encodeURIComponent(groupName)}&id=${data.promoID}`;
-                // Reset visual state
                 seeMoreCard.style.width = ''; seeMoreCard.style.flex = ''; seeMoreCard.style.opacity = '';
-                seeMoreCard.querySelector('.see-more-circle').style.transform = '';
+                const arrow = seeMoreCard.querySelector('.pull-arrow-icon');
+                if(arrow) arrow.style.transform = '';
                 pullDist = 0; startX = 0; delete seeMoreCard.dataset.vibrated;
             });
 
