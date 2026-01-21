@@ -121,13 +121,18 @@ async function loadProducts() {
         const folder = `product${i}`;
         try {
             const response = await fetch(`products/${folder}/info.json`);
-            if (response.ok) {
-                const data = await response.json();
+            if (!response.ok) throw new Error('Not found');
+            
+            const text = await response.text();
+            try {
+                const data = JSON.parse(text);
                 data.folder = folder;
                 allProducts.push(data);
                 renderProduct(data);
+            } catch (jsonErr) {
+                console.error(`ERROR: ${folder}/info.json has a syntax error (likely a missing comma).`, jsonErr);
             }
-        } catch (e) { console.log(`Skipping ${folder}`); }
+        } catch (e) { /* Folder simply doesn't exist, skip quietly */ }
     }
     // ABSOLUTE FIX: Once all cards are created, force a refresh based on current slider
     const currentPromo = slider.dataset.activePromo || 0;
