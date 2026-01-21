@@ -111,21 +111,29 @@ const productGrid = document.getElementById('product-grid');
 let allProducts = []; // Stores all loaded products for filtering
 
 async function loadProducts() {
-    productGrid.innerHTML = ''; // This now acts as a container for groups
-    let i = 7549; // New starting point to include product 7549
-    const maxSearch = i + 300; // Increased range to bridge the gap between IDs
+    productGrid.innerHTML = '';
+    const startID = 7549;
+    const range = 300;
+    
+    // Create an array of all fetch promises to run them in parallel
+    const fetchPromises = Array.from({ length: range }, (_, index) => {
+        const folder = `product${startID + index}`;
+        return fetch(`products/${folder}/info.json`)
+            .then(response => {
+                if (!response.ok) return null;
+                return response.json().then(data => ({ ...data, folder }));
+            })
+            .catch(() => null);
+    });
 
-    for (i; i < maxSearch; i++) {
-        const folder = `product${i}`;
-        try {
-            const response = await fetch(`products/${folder}/info.json`);
-            if (!response.ok) continue;
-            const text = await response.text();
-            const data = JSON.parse(text);
-            data.folder = folder;
-            renderProductGrouped(data);
-        } catch (e) { }
-    }
+    // Wait for all requests to finish simultaneously
+    const results = await Promise.all(fetchPromises);
+    
+    // Render only the valid products found
+    results.forEach(data => {
+        if (data) renderProductGrouped(data);
+    });
+
     filterProductsByPromo(slider.dataset.activePromo || 0);
 }
 
