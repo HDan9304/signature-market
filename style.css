@@ -372,8 +372,13 @@ body {
     transform: translateY(-1px);
 }
 
-/* Fix for horizontal overrun */
+/* Fix for horizontal overrun and observer accuracy */
 .manual-slider .product-card {
-    scroll-snap-align: start;
+    scroll-snap-align: center; /* Center snapping for better observer detection */
     flex-shrink: 0;
+}
+
+.manual-slider {
+    scroll-padding: 0 20px;
+    padding-bottom: 20px; /* Space for indicators */
 }

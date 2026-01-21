@@ -154,22 +154,13 @@ function renderProductGrouped(data) {
         `;
         productGrid.appendChild(section);
 
-        const sliderElem = section.querySelector('.manual-slider');
-        sliderElem.addEventListener('scroll', () => {
-            const scrollPos = sliderElem.scrollLeft;
-            const cardWidth = sliderElem.querySelector('.product-card').offsetWidth + 15;
-            const activeIndex = Math.round(scrollPos / cardWidth);
-            const dots = section.querySelectorAll('.p-dot');
-            dots.forEach((dot, idx) => {
-                dot.classList.toggle('active', idx === activeIndex);
-            });
-        });
-    }
+        }
 
     const sliderContainer = section.querySelector('.manual-slider');
     const card = document.createElement('div');
     card.className = 'product-card';
     card.dataset.promo = data.promoID;
+    card.dataset.index = sliderContainer.children.length; // Added for observer
     const discount = data.oldPrice ? Math.round(((data.oldPrice - data.price) / data.oldPrice) * 100) : 0;
     card.innerHTML = `
         <div class="product-img-container">
@@ -189,10 +180,26 @@ function renderProductGrouped(data) {
     `;
     sliderContainer.appendChild(card);
 
+    // Create dot
     const indicatorContainer = section.querySelector('.product-indicators');
     const dot = document.createElement('div');
-    dot.className = 'p-dot' + (sliderContainer.children.length === 1 ? ' active' : '');
+    dot.className = 'p-dot';
+    dot.id = `p-dot-${groupID}-${card.dataset.index}`;
     indicatorContainer.appendChild(dot);
+
+    // Initialize observer specifically for this group's cards
+    const pObserver = new IntersectionObserver((entries) => {
+        entries.forEach(entry => {
+            if (entry.isIntersecting) {
+                const idx = entry.target.dataset.index;
+                section.querySelectorAll('.p-dot').forEach(d => d.classList.remove('active'));
+                const targetDot = document.getElementById(`p-dot-${groupID}-${idx}`);
+                if (targetDot) targetDot.classList.add('active');
+            }
+        });
+    }, { root: sliderContainer, threshold: 0.6 });
+    
+    pObserver.observe(card);
 }
 
 // Updated Add to Cart Listener
