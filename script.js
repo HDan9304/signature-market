@@ -111,38 +111,45 @@ const productGrid = document.getElementById('product-grid');
 let allProducts = []; // Stores all loaded products for filtering
 
 async function loadProducts() {
-    productGrid.innerHTML = '';
-    let i = 7747; // Search now starts at your actual folder index
-    let found = true;
+    productGrid.innerHTML = ''; // This now acts as a container for groups
+    let i = 7747;
+    const maxSearch = i + 50;
 
-    // GAP-TOLERANT: Continues searching even if some folders are missing
-    const maxSearch = i + 50; // Look through 50 folders from start index
     for (i; i < maxSearch; i++) {
         const folder = `product${i}`;
         try {
             const response = await fetch(`products/${folder}/info.json`);
-            if (!response.ok) throw new Error('Not found');
-            
+            if (!response.ok) continue;
             const text = await response.text();
-            try {
-                const data = JSON.parse(text);
-                data.folder = folder;
-                allProducts.push(data);
-                renderProduct(data);
-            } catch (jsonErr) {
-                console.error(`ERROR: ${folder}/info.json has a syntax error (likely a missing comma).`, jsonErr);
-            }
-        } catch (e) { /* Folder simply doesn't exist, skip quietly */ }
+            const data = JSON.parse(text);
+            data.folder = folder;
+            renderProductGrouped(data);
+        } catch (e) { }
     }
-    // ABSOLUTE FIX: Once all cards are created, force a refresh based on current slider
-    const currentPromo = slider.dataset.activePromo || 0;
-    filterProductsByPromo(currentPromo);
+    filterProductsByPromo(slider.dataset.activePromo || 0);
 }
 
-function renderProduct(data) {
+function renderProductGrouped(data) {
+    const groupName = data.promoName || "Our Products";
+    const groupID = groupName.replace(/\s+/g, '-').toLowerCase();
+    
+    // Find or create the section for this group
+    let section = document.getElementById(`section-${groupID}`);
+    if (!section) {
+        section = document.createElement('div');
+        section.className = 'product-group-section';
+        section.id = `section-${groupID}`;
+        section.innerHTML = `
+            <h2 class="group-header">${groupName}</h2>
+            <div class="manual-slider" id="slider-${groupID}"></div>
+        `;
+        productGrid.appendChild(section);
+    }
+
+    const sliderContainer = section.querySelector('.manual-slider');
     const card = document.createElement('div');
     card.className = 'product-card';
-    card.dataset.promo = data.promoID; // Link to promotion ID
+    card.dataset.promo = data.promoID;
     card.innerHTML = `
         <div class="product-img-container">
             <img src="products/${data.folder}/${data.image}" alt="${data.name}" class="product-img">
@@ -156,7 +163,7 @@ function renderProduct(data) {
             <button class="add-to-cart-btn">Add to Cart</button>
         </div>
     `;
-    productGrid.appendChild(card);
+    sliderContainer.appendChild(card);
 }
 
 // Updated Add to Cart Listener
