@@ -77,17 +77,14 @@ function filterProductsByPromo(promoIndex) {
     const cards = document.querySelectorAll('.product-card');
     if (cards.length === 0) return;
 
-    const promoID = (parseInt(promoIndex) + 1).toString(); 
+    // Use "0" as default if index is missing to avoid hiding regular products on load
+    const activeIndex = promoIndex !== undefined ? promoIndex : (slider.dataset.activePromo || 0);
+    const promoID = (parseInt(activeIndex) + 1).toString(); 
 
     cards.forEach(card => {
         const productPromoID = card.dataset.promo;
-
-        // ABSOLUTE FIX: 
-        // 1. If product HAS NO promoID (it's a "regular" product), ALWAYS show it.
-        // 2. If product HAS a promoID, only show it if it matches the current slide.
-        if (!productPromoID || productPromoID === "undefined" || productPromoID === "") {
-            card.style.display = 'block';
-        } else if (productPromoID === promoID) {
+        // Show if: No promoID set OR matches current promo
+        if (!productPromoID || productPromoID === "undefined" || productPromoID === "" || productPromoID === promoID) {
             card.style.display = 'block';
         } else {
             card.style.display = 'none';
@@ -118,8 +115,9 @@ async function loadProducts() {
     let i = 7747; // Search now starts at your actual folder index
     let found = true;
 
-    // Fully automatic: Probes for folders starting from product7747
-    while (found && i < 7800) {
+    // GAP-TOLERANT: Continues searching even if some folders are missing
+    const maxSearch = i + 50; // Look through 50 folders from start index
+    for (i; i < maxSearch; i++) {
         const folder = `product${i}`;
         try {
             const response = await fetch(`products/${folder}/info.json`);
@@ -128,9 +126,8 @@ async function loadProducts() {
                 data.folder = folder;
                 allProducts.push(data);
                 renderProduct(data);
-                i++;
-            } else { found = false; }
-        } catch (e) { found = false; }
+            }
+        } catch (e) { console.log(`Skipping ${folder}`); }
     }
     // ABSOLUTE FIX: Once all cards are created, force a refresh based on current slider
     const currentPromo = slider.dataset.activePromo || 0;
