@@ -221,25 +221,8 @@ function renderProductGrouped(data) {
             seeAllBtn.className = 'see-all-btn';
             seeAllBtn.innerText = 'See All';
             seeAllBtn.onclick = () => {
-                const isGrid = !section.classList.contains('grid-mode');
-                
-                if (isGrid) {
-                    section.classList.add('grid-mode');
-                    seeAllBtn.innerText = 'Show Less';
-                    section.querySelectorAll('.product-card').forEach((card, i) => {
-                        card.style.animation = `gridReveal 0.5s ${i * 0.05}s cubic-bezier(0.2, 0.8, 0.2, 1) both`;
-                    });
-                } else {
-                    seeAllBtn.innerText = 'See All';
-                    section.querySelectorAll('.product-card').forEach((card) => {
-                        card.style.animation = `gridHide 0.3s ease-in both`;
-                    });
-                    // Wait for cards to fade out before removing grid layout
-                    setTimeout(() => {
-                        section.classList.remove('grid-mode');
-                        section.querySelectorAll('.product-card').forEach(card => card.style.animation = '');
-                    }, 300);
-                }
+                // Navigate to a dedicated category page with parameters
+                window.location.href = `category.html?name=${encodeURIComponent(groupName)}&id=${data.promoID}`;
             };
             section.querySelector('.group-header-row').appendChild(seeAllBtn);
         }
