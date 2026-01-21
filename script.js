@@ -56,15 +56,16 @@ async function loadPromos() {
 function initObserver() {
     const observer = new IntersectionObserver((entries) => {
         entries.forEach(entry => {
-            const index = entry.target.dataset.index;
-            const dot = document.getElementById(`dot-${index}`);
             if (entry.isIntersecting) {
-                entry.target.classList.add('active');
+                const index = entry.target.dataset.index;
+                // Update dots
+                document.querySelectorAll('.dot').forEach(d => d.classList.remove('active'));
+                const dot = document.getElementById(`dot-${index}`);
                 if (dot) dot.classList.add('active');
-                filterProductsByPromo(index); // NEW: Filter products when promo changes
-            } else {
-                entry.target.classList.remove('active');
-                if (dot) dot.classList.remove('active');
+                
+                // Set the current promo on the slider for reference
+                slider.dataset.activePromo = index;
+                filterProductsByPromo(index);
             }
         });
     }, { root: slider, threshold: 0.6 });
@@ -128,6 +129,9 @@ async function loadProducts() {
             } else { found = false; }
         } catch (e) { found = false; }
     }
+    // ABSOLUTE FIX: Once all cards are created, force a refresh based on current slider
+    const currentPromo = slider.dataset.activePromo || 0;
+    filterProductsByPromo(currentPromo);
 }
 
 function renderProduct(data) {
