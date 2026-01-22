@@ -13,6 +13,36 @@
     --white: #ffffff;
 }
 
+/* Announcement Bar Ticker */
+.announcement-bar {
+    background-color: var(--primary-green);
+    color: var(--white);
+    padding: 10px 0;
+    overflow: hidden;
+    position: relative;
+    z-index: 1001;
+}
+
+.ticker-wrapper {
+    display: inline-block;
+    white-space: nowrap;
+    padding-left: 100%;
+    animation: marquee 25s linear infinite;
+    font-size: 0.85rem;
+    font-weight: 600;
+    letter-spacing: 0.5px;
+}
+
+.ticker-item {
+    display: inline-block;
+    padding-right: 50px;
+}
+
+@keyframes marquee {
+    0% { transform: translate(0, 0); }
+    100% { transform: translate(-100%, 0); }
+}
+
 body {
     background-color: var(--white);
 }
@@ -66,7 +96,27 @@ body {
     z-index: 2;
 }
 
-/* Search pill styles removed */
+/* Search Opening Animation */
+.action-btn.searching::after {
+    content: '';
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    width: 10px;
+    height: 10px;
+    background: var(--primary-green);
+    border-radius: 50%;
+    transform: translate(-50%, -50%);
+    z-index: 9999;
+    pointer-events: none;
+    animation: searchRipple 0.5s cubic-bezier(0.4, 0, 0.2, 1) forwards;
+}
+
+@keyframes searchRipple {
+    0% { transform: translate(-50%, -50%) scale(1); opacity: 0; }
+    20% { opacity: 1; }
+    100% { transform: translate(-50%, -50%) scale(300); opacity: 1; }
+}
 
 .cart-count {
     position: absolute;
