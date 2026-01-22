@@ -499,35 +499,3 @@ body {
     box-shadow: none;
     cursor: not-allowed;
 }
-
-/* Swipe to See More Arrow Trigger */
-.see-more-card {
-    cursor: pointer;
-    background: transparent !important;
-    display: flex !important;
-    align-items: center;
-    justify-content: flex-start;
-    border: none !important;
-    box-shadow: none !important;
-    /* Hidden by default */
-    flex: 0 0 0 !important;
-    width: 0 !important;
-    margin: 0 !important;
-    opacity: 0;
-    overflow: visible; /* Changed to visible to allow the arrow to peek instantly */
-    transition: all 0.3s cubic-bezier(0.2, 0.8, 0.2, 1);
-    touch-action: pan-y pinch-zoom;
-}
-
-.see-more-content {
-    display: flex;
-    align-items: center;
-    padding-left: 0; /* Removed padding to sit flush with the card edge */
-}
-
-.pull-arrow-icon {
-    font-size: 2.2rem;
-    color: var(--primary-green);
-    opacity: 0.6;
-    transition: transform 0.1s ease, opacity 0.2s ease;
-}

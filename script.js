@@ -232,62 +232,7 @@ function renderProductGrouped(data) {
             section.querySelector('.group-header-row').appendChild(seeAllBtn);
         }
 
-        // NEW: Inject Swipe-to-See-More card at the end of the slider
-        let seeMoreCard = sliderContainer.querySelector('.see-more-card');
-        if (!seeMoreCard) {
-            seeMoreCard = document.createElement('div');
-            seeMoreCard.className = 'product-card see-more-card';
-            seeMoreCard.onclick = () => {
-                window.location.href = `category.html?name=${encodeURIComponent(groupName)}&id=${data.promoID}`;
-            };
-            seeMoreCard.innerHTML = `
-                <div class="see-more-content">
-                    <i class="fa-solid fa-chevron-right pull-arrow-icon"></i>
-                </div>
-            `;
-
-            let startX = 0;
-            let pullDist = 0;
-            sliderContainer.addEventListener('touchstart', (e) => {
-                if (sliderContainer.scrollLeft + sliderContainer.clientWidth >= sliderContainer.scrollWidth - 5) {
-                    startX = e.touches[0].pageX;
-                } else { startX = 0; }
-            }, {passive: true});
-
-            sliderContainer.addEventListener('touchmove', (e) => {
-                if (!startX) return;
-                pullDist = startX - e.touches[0].pageX;
-                if (pullDist > 0 && pullDist < 120) {
-                    seeMoreCard.style.width = `${pullDist}px`;
-                    seeMoreCard.style.flex = `0 0 ${pullDist}px`;
-                    // Arrow is now instantly 100% visible from the screen edge
-                    seeMoreCard.style.opacity = '1';
-                    
-                    const arrow = seeMoreCard.querySelector('.pull-arrow-icon');
-                    // Scale animation starts larger for better visibility
-                    arrow.style.transform = `scale(${0.9 + (pullDist/120)*0.4})`;
-                    arrow.style.opacity = '1';
-                    
-                    if (pullDist > 70 && !seeMoreCard.dataset.vibrated) {
-                        if (navigator.vibrate) navigator.vibrate(15); // Subtle "click" haptic
-                        seeMoreCard.dataset.vibrated = "true";
-                    }
-                }
-            }, {passive: true});
-
-            sliderContainer.addEventListener('touchend', () => {
-                if (pullDist > 80) window.location.href = `category.html?name=${encodeURIComponent(groupName)}&id=${data.promoID}`;
-                seeMoreCard.style.width = ''; seeMoreCard.style.flex = ''; seeMoreCard.style.opacity = '';
-                const arrow = seeMoreCard.querySelector('.pull-arrow-icon');
-                if(arrow) arrow.style.transform = '';
-                pullDist = 0; startX = 0; delete seeMoreCard.dataset.vibrated;
-            });
-
-            sliderContainer.appendChild(seeMoreCard);
-        } else {
-            sliderContainer.appendChild(seeMoreCard); // Ensure it stays at the very end
         }
-    }
 }
 
 // Updated Add to Cart Listener
