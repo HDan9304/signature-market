@@ -514,7 +514,7 @@ body {
     width: 0 !important;
     margin: 0 !important;
     opacity: 0;
-    overflow: hidden;
+    overflow: visible; /* Changed to visible to allow the arrow to peek instantly */
     transition: all 0.3s cubic-bezier(0.2, 0.8, 0.2, 1);
     touch-action: pan-y pinch-zoom;
 }

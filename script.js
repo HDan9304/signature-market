@@ -260,16 +260,16 @@ function renderProductGrouped(data) {
                 if (pullDist > 0 && pullDist < 120) {
                     seeMoreCard.style.width = `${pullDist}px`;
                     seeMoreCard.style.flex = `0 0 ${pullDist}px`;
-                    // Faster opacity ramp for immediate visibility
-                    seeMoreCard.style.opacity = Math.min(1, pullDist / 20);
+                    // Arrow is now instantly 100% visible from the screen edge
+                    seeMoreCard.style.opacity = '1';
                     
                     const arrow = seeMoreCard.querySelector('.pull-arrow-icon');
-                    // Removed translateX offset to keep arrow at the junction of the card
-                    arrow.style.transform = `scale(${0.7 + (pullDist/120)*0.6})`;
-                    arrow.style.opacity = Math.min(1, pullDist / 20);
+                    // Scale animation starts larger for better visibility
+                    arrow.style.transform = `scale(${0.9 + (pullDist/120)*0.4})`;
+                    arrow.style.opacity = '1';
                     
-                    if (pullDist > 80 && !seeMoreCard.dataset.vibrated) {
-                        if (navigator.vibrate) navigator.vibrate(20);
+                    if (pullDist > 70 && !seeMoreCard.dataset.vibrated) {
+                        if (navigator.vibrate) navigator.vibrate(15); // Subtle "click" haptic
                         seeMoreCard.dataset.vibrated = "true";
                     }
                 }
