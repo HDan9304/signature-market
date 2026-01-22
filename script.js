@@ -15,10 +15,11 @@ searchBtn.addEventListener('click', () => {
     searchBtn.classList.add('searching');
     console.log("Navigating to Search Page...");
     
-    // Minimal delay to allow a click animation before navigation
+    // Adjusted delay to 450ms to ensure the ripple fully covers the screen 
+    // before the search page starts its reveal.
     setTimeout(() => {
         window.location.href = 'search.html';
-    }, 300);
+    }, 450);
 });
 
 // Function for Cart Interaction
