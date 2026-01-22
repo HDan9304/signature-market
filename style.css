@@ -66,44 +66,7 @@ body {
     z-index: 2;
 }
 
-.search-wrapper {
-    display: flex;
-    align-items: center;
-    background: var(--accent-green);
-    border-radius: 30px;
-    padding: 0;
-    width: 40px;
-    transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
-    overflow: hidden;
-    position: relative;
-}
-
-.search-wrapper.active {
-    width: 220px;
-    padding: 0 10px;
-}
-
-.search-input {
-    width: 0;
-    border: none;
-    background: none;
-    outline: none;
-    padding: 0;
-    font-size: 0.9rem;
-    color: var(--primary-green);
-    transition: all 0.4s ease;
-    opacity: 0;
-}
-
-.search-wrapper.active .search-input {
-    width: 100%;
-    padding: 8px 5px;
-    opacity: 1;
-}
-
-@media (max-width: 480px) {
-    .search-wrapper.active { width: 160px; }
-}
+/* Search pill styles removed */
 
 .cart-count {
     position: absolute;

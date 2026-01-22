@@ -9,49 +9,17 @@ mobileMenu.addEventListener('click', () => {
     alert("Mobile Menu Opened");
 });
 
-// Function for Search Interaction and Real-time Filtering
-const searchWrapper = document.getElementById('search-wrapper');
-const searchInput = document.getElementById('search-input');
-
+// Function for Search Page Transition
 searchBtn.addEventListener('click', () => {
-    searchWrapper.classList.toggle('active');
-    if (searchWrapper.classList.contains('active')) {
-        searchInput.focus();
-    } else {
-        searchInput.value = '';
-        applySearchFilter('');
-    }
-});
-
-searchInput.addEventListener('input', (e) => {
-    applySearchFilter(e.target.value.toLowerCase());
-});
-
-function applySearchFilter(query) {
-    const sections = document.querySelectorAll('.product-group-section');
+    // Adding a ripple/expand effect class to the button for the animation
+    searchBtn.classList.add('searching');
+    console.log("Navigating to Search Page...");
     
-    sections.forEach(section => {
-        const cards = section.querySelectorAll('.product-card');
-        let hasVisibleProducts = false;
-
-        cards.forEach(card => {
-            const productName = card.querySelector('.product-name').innerText.toLowerCase();
-            const matches = productName.includes(query);
-            
-            // If searching, ignore promo filter; otherwise, defer to standard promo filtering
-            if (query.length > 0) {
-                card.style.display = matches ? 'block' : 'none';
-            } else {
-                filterProductsByPromo(slider.dataset.activePromo || 0);
-            }
-            
-            if (card.style.display !== 'none') hasVisibleProducts = true;
-        });
-
-        // Hide whole section header if no products match the search
-        section.style.display = hasVisibleProducts ? 'block' : 'none';
-    });
-}
+    // Minimal delay to allow a click animation before navigation
+    setTimeout(() => {
+        window.location.href = 'search.html';
+    }, 300);
+});
 
 // Function for Cart Interaction
 cartBtn.addEventListener('click', () => {
