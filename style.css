@@ -571,3 +571,77 @@ body {
     box-shadow: none;
     cursor: not-allowed;
 }
+
+/* Footer Styling */
+.main-footer {
+    background-color: var(--accent-green);
+    padding: 60px 0 40px;
+    margin-top: 60px;
+    border-top: 1px solid rgba(45, 90, 39, 0.1);
+}
+
+.footer-content {
+    display: flex;
+    flex-direction: column;
+    gap: 40px;
+}
+
+.footer-brand {
+    max-width: 600px;
+}
+
+.footer-brand p {
+    margin-top: 15px;
+    font-size: 0.9rem;
+    line-height: 1.6;
+    color: #555;
+}
+
+.footer-payments {
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+}
+
+.footer-payments h4 {
+    font-size: 1rem;
+    color: var(--primary-green);
+    font-weight: 700;
+}
+
+.payment-methods {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 12px;
+    align-items: center;
+}
+
+.payment-badge {
+    background: white;
+    padding: 5px 15px;
+    border-radius: 8px;
+    font-size: 0.75rem;
+    font-weight: 700;
+    color: var(--primary-green);
+    box-shadow: 0 2px 8px rgba(0,0,0,0.04);
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    height: 38px;
+    border: 1px solid rgba(0,0,0,0.02);
+}
+
+.payment-badge i {
+    font-size: 1.3rem;
+}
+
+@media (min-width: 768px) {
+    .footer-content {
+        flex-direction: row;
+        justify-content: space-between;
+        align-items: flex-start;
+    }
+    .footer-payments {
+        max-width: 400px;
+    }
+}
