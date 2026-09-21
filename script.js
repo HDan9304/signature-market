@@ -130,17 +130,6 @@ fetch("assets/banners/banners.json")
 
     heroInterval = setInterval(nextHero,5000);
 
-})
-.catch(error => {
-
-    console.error("Unable to load banners.json", error);
-
-    heroSlidesContainer.innerHTML = `
-        <div class="hero-slide active">
-            <img src="assets/banners/banner-1.jpg" alt="Default Banner">
-        </div>
-    `;
-
 });
 
 function showHero(index){
