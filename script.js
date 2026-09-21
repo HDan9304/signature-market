@@ -183,13 +183,11 @@ function showHero(index){
 
 function nextHero(){
 
-    heroIndex++;
-
-    if(heroIndex>=heroSlides.length){
-
-        heroIndex=0;
-
+    if(heroSlides.length <= 1){
+        return;
     }
+
+    heroIndex = (heroIndex + 1) % heroSlides.length;
 
     showHero(heroIndex);
 
