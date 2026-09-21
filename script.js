@@ -211,3 +211,7 @@ function restartHero(){
     heroInterval = setInterval(nextHero,5000);
 
 }
+
+if (window.lucide) {
+    lucide.createIcons();
+}
