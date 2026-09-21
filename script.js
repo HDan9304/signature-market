@@ -14,31 +14,53 @@ item.classList.remove("active");
 
 announcements[index].classList.add("active");
 
+if (announcementProgress) {
+
+    announcementProgress.getAnimations().forEach(animation => animation.cancel());
+
+    announcementProgress.animate(
+        [
+            { transform: "scaleX(0)" },
+            { transform: "scaleX(1)" }
+        ],
+        {
+            duration: 8000,
+            easing: "linear",
+            fill: "forwards"
+        }
+    );
+
 }
 
-next.addEventListener("click",()=>{
-
-current++;
-
-if(current>=announcements.length){
-current=0;
 }
 
-showSlide(current);
+if (next) {
+    next.addEventListener("click", () => {
 
-});
+        current++;
 
-prev.addEventListener("click",()=>{
+        if (current >= announcements.length) {
+            current = 0;
+        }
 
-current--;
+        showSlide(current);
 
-if(current<0){
-current=announcements.length-1;
+    });
 }
 
-showSlide(current);
+if (prev) {
+    prev.addEventListener("click", () => {
 
-});
+        current--;
+
+        if (current < 0) {
+            current = announcements.length - 1;
+        }
+
+        showSlide(current);
+
+    });
+}
 
 // Auto slide every 5 seconds
 
@@ -54,17 +76,6 @@ showSlide(current);
 
 },8000);
 
-announcementProgress.animate(
-    [
-        { transform: "scaleX(0)" },
-        { transform: "scaleX(1)" }
-    ],
-    {
-        duration: 8000,
-        easing: "linear",
-        fill: "forwards"
-    }
-);
 
 const cartToggle = document.getElementById("cartToggle");
 const cartDrawer = document.getElementById("cartDrawer");
