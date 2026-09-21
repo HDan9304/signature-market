@@ -8,7 +8,9 @@
     <!-- Google Font -->
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600&display=swap" rel="stylesheet">
 
-    <link rel="stylesheet" href="style.css">
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined" rel="stylesheet">
+
+<link rel="stylesheet" href="style.css">
 </head>
 <body>
 
@@ -47,11 +49,32 @@
 <header class="site-header">
     <div class="header-container">
 
-        <a href="#" class="logo">
-            <img src="images/signature-snack-marketplace.png" alt="Signature Market">
-        </a>
+    <div class="header-left">
+
+        <button class="header-icon" aria-label="Menu">
+            <span class="material-symbols-outlined">menu</span>
+        </button>
+
+        <button class="header-icon" aria-label="Search">
+            <span class="material-symbols-outlined">search</span>
+        </button>
 
     </div>
+
+    <a href="#" class="logo">
+        <img src="images/signature-snack-marketplace.png" alt="Signature Market">
+    </a>
+
+    <div class="header-right">
+
+        <button class="header-icon cart-btn" aria-label="Cart">
+            <span class="material-symbols-outlined">shopping_bag</span>
+            <span class="cart-badge">0</span>
+        </button>
+
+    </div>
+
+</div>
 </header>
 
 <script src="script.js"></script>
