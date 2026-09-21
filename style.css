@@ -14,20 +14,20 @@ body{
 
 .announcement-wrapper{
     width:min(94%,1200px);
-margin:40px auto 0;
+    margin:16px auto 0;
 
-background:#E3F1DE;
+    background:#E3F1DE;
 
-border-radius:999px;
+    border-radius:999px;
 
-display:flex;
-align-items:center;
-justify-content:space-between;
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
 
-height:42px;
-padding:0 clamp(12px,2vw,20px);
+    height:42px;
+    padding:0 clamp(12px,2vw,20px);
 
-border:1px solid rgba(255,255,255,.55);
+    border:1px solid rgba(255,255,255,.55);
 }
 
 .site-header{
@@ -79,8 +79,10 @@ min-height:78px;
     border-radius:50%;
 }
 
-.header-icon .material-symbols-outlined{
-    font-size:clamp(28px,2vw,34px);
+.header-icon svg{
+    width:clamp(26px,2vw,32px);
+    height:clamp(26px,2vw,32px);
+    stroke-width:2;
 }
 
 .cart-btn{
