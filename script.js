@@ -122,8 +122,10 @@ fetch("assets/banners/banners.json")
 
         heroSlidesContainer.appendChild(slide);
 
-        const dot = document.createElement("button");
-        dot.className = "hero-dot";
+heroSlides.push(slide);
+
+const dot = document.createElement("button");
+dot.className = "hero-dot";
 
         if(index === 0){
             dot.classList.add("active");
@@ -141,10 +143,9 @@ fetch("assets/banners/banners.json")
 
         heroDotsContainer.appendChild(dot);
 
-    });
+heroDots.push(dot);
 
-    heroSlides = document.querySelectorAll(".hero-slide");
-    heroDots = document.querySelectorAll(".hero-dot");
+    });
 
     heroIndex = 0;
 
@@ -155,11 +156,21 @@ heroInterval = setInterval(nextHero,5000);
 })
 .catch(error => {
 
-    console.error(error);
+    console.error("Hero Carousel Error:", error);
 
     heroSlidesContainer.innerHTML = `
-        <div class="hero-slide active">
-            <img src="assets/banners/banner-1.gif" alt="Banner">
+        <div style="
+            display:flex;
+            align-items:center;
+            justify-content:center;
+            height:100%;
+            padding:24px;
+            text-align:center;
+            color:#666;
+            font-size:14px;
+        ">
+            Failed to load banners.<br>
+            Open the browser console (F12 → Console) to see the error.
         </div>
     `;
 
