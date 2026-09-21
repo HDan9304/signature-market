@@ -77,42 +77,98 @@ document.addEventListener("keydown", (event) => {
     }
 });
 
-const heroSlides = document.querySelectorAll(".hero-slide");
-const heroDots = document.querySelectorAll(".hero-dot");
+const heroSlidesContainer = document.getElementById("heroSlides");
+const heroDotsContainer = document.getElementById("heroDots");
 
+let heroSlides = [];
+let heroDots = [];
 let heroIndex = 0;
+let heroInterval;
+
+fetch("assets/banners/banners.json")
+.then(response => response.json())
+.then(banners => {
+
+    banners.forEach((banner, index) => {
+
+        const slide = document.createElement("div");
+        slide.className = "hero-slide";
+
+        if(index === 0){
+            slide.classList.add("active");
+        }
+
+        slide.innerHTML = `
+            <img src="assets/banners/${banner.image}" alt="${banner.title}">
+        `;
+
+        heroSlidesContainer.appendChild(slide);
+
+        const dot = document.createElement("button");
+        dot.className = "hero-dot";
+
+        if(index === 0){
+            dot.classList.add("active");
+        }
+
+        dot.onclick = () => {
+
+            heroIndex = index;
+
+            showHero(heroIndex);
+
+            restartHero();
+
+        };
+
+        heroDotsContainer.appendChild(dot);
+
+    });
+
+    heroSlides = document.querySelectorAll(".hero-slide");
+    heroDots = document.querySelectorAll(".hero-dot");
+
+    heroInterval = setInterval(nextHero,5000);
+
+});
 
 function showHero(index){
 
     heroSlides.forEach((slide,i)=>{
+
         slide.classList.toggle("active",i===index);
+
     });
 
     heroDots.forEach((dot,i)=>{
+
         dot.classList.toggle("active",i===index);
+
     });
 
 }
 
-setInterval(()=>{
+function nextHero(){
 
     heroIndex++;
 
     if(heroIndex>=heroSlides.length){
+
         heroIndex=0;
+
     }
 
     showHero(heroIndex);
 
-},5000);
+}
 
-heroDots.forEach((dot,index)=>{
+function restartHero(){
 
-    dot.addEventListener("click",()=>{
+    clearInterval(heroInterval);
 
-        heroIndex=index;
+    heroInterval=setInterval(nextHero,5000);
 
-        showHero(heroIndex);
+}
 
     });
 
