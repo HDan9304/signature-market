@@ -8,7 +8,7 @@
     <!-- Google Font -->
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600&display=swap" rel="stylesheet">
 
-<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined" rel="stylesheet">
+<script src="https://unpkg.com/lucide@latest"></script>
 
 <link rel="stylesheet" href="style.css">
 </head>
@@ -52,12 +52,12 @@
     <div class="header-left">
 
         <button class="header-icon" aria-label="Menu">
-            <span class="material-symbols-outlined">menu</span>
-        </button>
+    <i data-lucide="menu"></i>
+</button>
 
         <button class="header-icon" aria-label="Search">
-            <span class="material-symbols-outlined">search</span>
-        </button>
+    <i data-lucide="search"></i>
+</button>
 
     </div>
 
@@ -68,7 +68,7 @@
     <div class="header-right">
 
         <button class="header-icon cart-btn" aria-label="Cart">
-            <span class="material-symbols-outlined">shopping_bag</span>
+            <i data-lucide="shopping-bag"></i>
             <span class="cart-badge">0</span>
         </button>
 
@@ -78,5 +78,9 @@
 </header>
 
 <script src="script.js"></script>
+
+<script>
+    lucide.createIcons();
+</script>
 </body>
 </html>
