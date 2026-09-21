@@ -86,8 +86,26 @@ let heroIndex = 0;
 let heroInterval;
 
 fetch("assets/banners/banners.json")
-.then(response => response.json())
+.then(response => {
+
+    if (!response.ok) {
+        throw new Error("Unable to load banners.json");
+    }
+
+    return response.json();
+
+})
 .then(banners => {
+
+    if (!Array.isArray(banners)) {
+        throw new Error("banners.json must contain an array.");
+    }
+
+    banners = banners.filter(banner => banner && banner.image);
+
+    if (banners.length === 0) {
+        throw new Error("No banners found.");
+    }
 
     banners.forEach((banner, index) => {
 
@@ -129,6 +147,17 @@ fetch("assets/banners/banners.json")
     heroDots = document.querySelectorAll(".hero-dot");
 
     heroInterval = setInterval(nextHero,5000);
+
+})
+.catch(error => {
+
+    console.error(error);
+
+    heroSlidesContainer.innerHTML = `
+        <div class="hero-slide active">
+            <img src="assets/banners/banner-1.gif" alt="Banner">
+        </div>
+    `;
 
 });
 
