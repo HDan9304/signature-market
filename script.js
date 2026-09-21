@@ -1,4 +1,5 @@
 const announcements = document.querySelectorAll(".announcement");
+const announcementProgress = document.getElementById("announcementProgress");
 
 const next = document.getElementById("next");
 const prev = document.getElementById("prev");
@@ -52,6 +53,18 @@ current=0;
 showSlide(current);
 
 },8000);
+
+announcementProgress.animate(
+    [
+        { transform: "scaleX(0)" },
+        { transform: "scaleX(1)" }
+    ],
+    {
+        duration: 8000,
+        easing: "linear",
+        fill: "forwards"
+    }
+);
 
 const cartToggle = document.getElementById("cartToggle");
 const cartDrawer = document.getElementById("cartDrawer");
