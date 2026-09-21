@@ -146,7 +146,11 @@ fetch("assets/banners/banners.json")
     heroSlides = document.querySelectorAll(".hero-slide");
     heroDots = document.querySelectorAll(".hero-dot");
 
-    heroInterval = setInterval(nextHero,5000);
+    heroIndex = 0;
+
+showHero(heroIndex);
+
+heroInterval = setInterval(nextHero,5000);
 
 })
 .catch(error => {
