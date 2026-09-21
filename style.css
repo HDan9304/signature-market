@@ -53,6 +53,11 @@ min-height:78px;
     position:absolute;
     left:50%;
     transform:translateX(-50%);
+    width:calc(100% - clamp(150px,34vw,220px));
+    display:flex;
+    justify-content:center;
+    align-items:center;
+    pointer-events:none;
 }
 
 .logo img{
@@ -65,7 +70,16 @@ min-height:78px;
 .header-right{
     display:flex;
     align-items:center;
-    gap:clamp(8px,1vw,16px);
+}
+
+.header-left{
+    gap:clamp(4px,1vw,10px);
+    flex:0 0 clamp(88px,18vw,110px);
+}
+
+.header-right{
+    justify-content:flex-end;
+    flex:0 0 clamp(44px,10vw,56px);
 }
 
 .header-icon{
