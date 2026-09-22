@@ -85,9 +85,18 @@ const cartClose = document.getElementById("cartClose");
 cartToggle.addEventListener("click", () => {
     cartDrawer.classList.add("open");
     cartOverlay.classList.add("show");
+
+    cartDrawer.classList.remove("animate");
+
+    requestAnimationFrame(() => {
+        requestAnimationFrame(() => {
+            cartDrawer.classList.add("animate");
+        });
+    });
 });
 
 function closeCart() {
+    cartDrawer.classList.remove("animate");
     cartDrawer.classList.remove("open");
     cartOverlay.classList.remove("show");
 }
@@ -234,6 +243,28 @@ function restartHero(){
 
     heroInterval = setInterval(nextHero,5000);
 
+}
+
+const siteHeader = document.querySelector(".site-header");
+const heroCarousel = document.querySelector(".hero-carousel");
+
+if(siteHeader && heroCarousel){
+
+    function updateHeader(){
+
+        const trigger =
+            heroCarousel.offsetTop + heroCarousel.offsetHeight;
+
+        siteHeader.classList.toggle(
+            "scrolled",
+            window.scrollY > trigger
+        );
+    }
+
+    updateHeader();
+
+    window.addEventListener("scroll", updateHeader, { passive:true });
+    window.addEventListener("resize", updateHeader);
 }
 
 if (window.lucide) {
