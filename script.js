@@ -112,11 +112,16 @@ document.addEventListener("keydown", (event) => {
 
 const heroSlidesContainer = document.getElementById("heroSlides");
 const heroDotsContainer = document.getElementById("heroDots");
+const heroProgress = document.getElementById("heroProgress");
+const heroCarousel = document.querySelector(".hero-carousel");
 
 let heroSlides = [];
 let heroDots = [];
 let heroIndex = 0;
 let heroInterval;
+
+let touchStartX = 0;
+let touchEndX = 0;
 
 fetch("assets/banners/banners.json")
 .then(response => {
@@ -212,16 +217,29 @@ heroInterval = setInterval(nextHero,5000);
 function showHero(index){
 
     heroSlides.forEach((slide,i)=>{
-
         slide.classList.toggle("active",i===index);
-
     });
 
     heroDots.forEach((dot,i)=>{
-
         dot.classList.toggle("active",i===index);
-
     });
+
+    if(heroProgress){
+
+        heroProgress.getAnimations().forEach(animation => animation.cancel());
+
+        heroProgress.animate(
+            [
+                { transform:"scaleX(0)" },
+                { transform:"scaleX(1)" }
+            ],
+            {
+                duration:5000,
+                easing:"linear",
+                fill:"forwards"
+            }
+        );
+    }
 
 }
 
@@ -242,6 +260,35 @@ function restartHero(){
     clearInterval(heroInterval);
 
     heroInterval = setInterval(nextHero,5000);
+
+}
+
+if(heroCarousel){
+
+    heroCarousel.addEventListener("touchstart", event=>{
+        touchStartX = event.changedTouches[0].clientX;
+    },{passive:true});
+
+    heroCarousel.addEventListener("touchend", event=>{
+
+        touchEndX = event.changedTouches[0].clientX;
+
+        const distance = touchStartX - touchEndX;
+
+        if(Math.abs(distance) < 40){
+            return;
+        }
+
+        if(distance > 0){
+            nextHero();
+        }else{
+            heroIndex = (heroIndex - 1 + heroSlides.length) % heroSlides.length;
+            showHero(heroIndex);
+        }
+
+        restartHero();
+
+    },{passive:true});
 
 }
 
