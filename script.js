@@ -293,7 +293,6 @@ if(heroCarousel){
 }
 
 const siteHeader = document.querySelector(".site-header");
-const heroCarousel = document.querySelector(".hero-carousel");
 
 if(siteHeader && heroCarousel){
 
