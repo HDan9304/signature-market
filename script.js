@@ -165,6 +165,8 @@ heroSlides.push(slide);
 const dot = document.createElement("button");
 dot.className = "hero-dot";
 
+dot.innerHTML = '<span class="hero-dot-progress"></span>';
+
         if(index === 0){
             dot.classList.add("active");
         }
@@ -224,22 +226,29 @@ function showHero(index){
         dot.classList.toggle("active",i===index);
     });
 
-    if(heroProgress){
+    heroDots.forEach(dot => {
 
-        heroProgress.getAnimations().forEach(animation => animation.cancel());
+    const progress = dot.querySelector(".hero-dot-progress");
 
-        heroProgress.animate(
-            [
-                { transform:"scaleX(0)" },
-                { transform:"scaleX(1)" }
-            ],
-            {
-                duration:5000,
-                easing:"linear",
-                fill:"forwards"
-            }
-        );
+    progress.getAnimations().forEach(animation => animation.cancel());
+
+    progress.style.transform = "scaleX(0)";
+});
+
+const activeProgress =
+    heroDots[index].querySelector(".hero-dot-progress");
+
+activeProgress.animate(
+    [
+        { transform:"scaleX(0)" },
+        { transform:"scaleX(1)" }
+    ],
+    {
+        duration:5000,
+        easing:"linear",
+        fill:"forwards"
     }
+);
 
 }
 

@@ -440,16 +440,39 @@ flex-shrink:0;
 }
 
 .hero-dot{
+    position:relative;
+
     width:10px;
     height:10px;
+
     border:none;
-    border-radius:50%;
+    border-radius:999px;
+
     background:rgba(255,255,255,.45);
-    cursor:pointer;
+
+    overflow:hidden;
+
+    transition:
+        width .35s ease,
+        background .35s ease;
 }
 
 .hero-dot.active{
+    width:48px;
+    background:rgba(255,255,255,.28);
+}
+
+.hero-dot-progress{
+
+    position:absolute;
+    inset:0;
+
     background:#fff;
+
+    border-radius:inherit;
+
+    transform:scaleX(0);
+    transform-origin:left center;
 }
 
 @media (max-width:768px){
